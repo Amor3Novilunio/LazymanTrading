@@ -1,0 +1,1 @@
+simplified functionality required for the whole project to function together
