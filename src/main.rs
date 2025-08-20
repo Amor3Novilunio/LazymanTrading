@@ -1,5 +1,8 @@
-use std::env;
-use lazyman_trading::std_error_exit;
+use lazyman_trading::{
+    modules::{env, rest},
+    runtime::functions::{JoinStringProps, join_string},
+    std_error_exit
+};
 
 #[tokio::main]
 async fn main() {
@@ -41,10 +44,23 @@ async fn main() {
     //
 
     // check for flags
-    let args: Vec<String> = env::args().skip(1).collect();
+    let args: Vec<String> = std::env::args().skip(1).collect();
+
+    let env = env::load_env();
+
+    let binance_api_collection = join_string(JoinStringProps {
+        split_prefix: ",".to_string(),
+        string_collection: env.binance_api,
+    });
 
     match args.first().map(String::as_str) {
         Some("verify") => {
+            rest::get::request(rest::get::GetProps {
+                url: "".to_string(),
+                params:None
+            })
+            .await;
+
             println!("verifies token")
         }
         Some("roi") => {
