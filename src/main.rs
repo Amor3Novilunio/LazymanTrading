@@ -55,6 +55,16 @@ async fn main() {
 
     match args.first().map(String::as_str) {
         Some("verify") => {
+            
+            let mut count = binance_api_collection.len();
+            
+            for api_url  in binance_api_collection {
+                // send request here
+                // if request is successful break the loop
+                // if request fails proceed to the next api
+                // if all api fails return proper error
+            }
+            
             rest::get::request(rest::get::GetProps {
                 url: "".to_string(),
                 params:None
