@@ -1,26 +1,18 @@
 use crate::{modules::env, std_error_exit};
-use reqwest::Client;
-use serde::Deserialize;
-use std::collections::HashMap;
+use reqwest::{Client, StatusCode};
 
-#[derive(Deserialize)]
-pub struct HttpBinResponse {
-    pub args: HashMap<String, String>,
-    pub headers: HashMap<String, String>,
-    pub origin: String,
-    pub url: String,
-}
-
+// Props
 pub struct GetProps {
     pub url: String,
     pub params: Option<Vec<(String, String)>>,
 }
 
-pub async fn request(props: GetProps) {
+// Send Request
+pub async fn request(props: GetProps) -> (StatusCode, serde_json::Value) {
     let client = Client::new();
     let env = env::load_env();
 
-    // Req
+    // Request Builder
     let request = match client
         .get(props.url)
         .query(&props.params)
@@ -32,9 +24,21 @@ pub async fn request(props: GetProps) {
         Err(err) => std_error_exit!(format!("Failed To Get Request | ERR: {err}")),
     };
 
-    // Res
-    match request.json().await {
+    // Get the Status
+    let status = request.status();
+
+    // Get the body
+    let body = match request.text().await {
         Ok(res) => res,
-        Err(err) => std_error_exit!(format!("Failed To Get Response | ERR: {err}")),
-    }
+        Err(err) => std_error_exit!(format!("Failed To Read Body | ERR: {err}")),
+    };
+
+    // body Parsing
+    let result = match serde_json::from_str::<serde_json::Value>(&body) {
+        Ok(res) => res,
+        Err(err) => std_error_exit!(format!("Failed To Parse JSON | ERR: {err} | raw={body}")),
+    };
+
+    // Return
+    (status, result)
 }

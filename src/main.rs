@@ -1,7 +1,7 @@
 use lazyman_trading::{
     modules::{env, rest},
     runtime::functions::{JoinStringProps, join_string},
-    std_error_exit
+    std_error_exit,
 };
 
 #[tokio::main]
@@ -43,35 +43,46 @@ async fn main() {
     // after picking which token the bot will run
     //
 
-    // check for flags
+    // Flags Skipping for Imperative Design
     let args: Vec<String> = std::env::args().skip(1).collect();
 
+    // Load The Env
     let env = env::load_env();
 
+    // Convert the api collection to array of Strings
     let binance_api_collection = join_string(JoinStringProps {
         split_prefix: ",".to_string(),
         string_collection: env.binance_api,
     });
 
+    // Imperative Choices
     match args.first().map(String::as_str) {
         Some("verify") => {
             
-            let mut count = binance_api_collection.len();
-            
-            for api_url  in binance_api_collection {
-                // send request here
-                // if request is successful break the loop
-                // if request fails proceed to the next api
-                // if all api fails return proper error
-            }
-            
-            rest::get::request(rest::get::GetProps {
-                url: "".to_string(),
-                params:None
-            })
-            .await;
+            // Api Collection Response 
+            for api_url in binance_api_collection {
 
-            println!("verifies token")
+                // Send Request For Account Verification If Token Is Still Valid
+                let (status, body) = rest::get::request(rest::get::GetProps {
+                    url: format!("{}/sapi/v1/account/status", api_url),
+                    params: None,
+                })
+                .await;
+
+                // Conditional Result Handling
+                if status.is_success() {
+                    println!("{:?}", status);
+                    println!("{:?}", body);
+                    println!("SUCKSESSO");
+                    break;
+                } else {
+                    println!("{:?}", status);
+                    println!("{:?}", body);
+                    println!("Errror");
+                    continue;
+                }
+            }
+
         }
         Some("roi") => {
             println!("returns an roi result regarding on what changed")
