@@ -22,3 +22,17 @@ pub fn get_unix_clock() -> String {
         .as_millis()
         .to_string()
 }
+
+pub struct QueryStringProps {
+    pub query: Vec<(String, String)>,
+}
+
+pub fn query_string(props: QueryStringProps) -> String {
+    let mut result: Vec<String> = Vec::new();
+    for query in props.query {
+        let (key, value) = query;
+        result.push(format!("{}={}", key, value));
+    }
+
+    result.join("&")
+}

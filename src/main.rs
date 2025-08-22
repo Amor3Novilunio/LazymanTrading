@@ -1,5 +1,6 @@
 use lazyman_trading::{
-    modules::{env, rest},
+    core::request::verification,
+    modules::env,
     runtime::functions::{JoinStringProps, join_string},
     std_error_exit,
 };
@@ -41,7 +42,6 @@ async fn main() {
     // and how much do you have and how much you invested to them
     // 3
     // after picking which token the bot will run
-    //
 
     // Flags Skipping for Imperative Design
     let args: Vec<String> = std::env::args().skip(1).collect();
@@ -52,36 +52,17 @@ async fn main() {
     // Convert the api collection to array of Strings
     let binance_api_collection = join_string(JoinStringProps {
         split_prefix: ",".to_string(),
-        string_collection: env.binance_api,
+        string_collection: env.binance_api.clone(),
     });
 
     // Imperative Choices
     match args.first().map(String::as_str) {
         Some("verify") => {
-            // Api Collection Response
-            for api_url in binance_api_collection {
-
-                // Send Request For Account Verification If Token Is Still Valid
-                let (status, body) = rest::get::request(rest::get::GetProps {
-                    url: format!("{}/sapi/v1/account/status", api_url),
-                    params: None,
-                })
-                .await;
-
-                // Conditional Result Handling
-                if status.is_success() {
-                    println!("{:?}", status);
-                    println!("{:?}", body);
-                    println!("SUCKSESSO");
-                    break;
-                } else {
-                    println!("{:?}", status);
-                    println!("{:?}", body);
-                    println!("Errror");
-                    continue;
-                }
-            }
-
+            verification::account_status(verification::AccountStatusProps {
+                binance_api_collection,
+                env,
+            })
+            .await
         }
         Some("roi") => {
             println!("returns an roi result regarding on what changed")
