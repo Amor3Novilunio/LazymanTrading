@@ -1,4 +1,4 @@
-use crate::{modules::env, std_error_exit};
+use crate::{modules::env, runtime::functions::get_unix_clock, std_error_exit};
 use reqwest::{Client, StatusCode};
 
 // Props
@@ -12,10 +12,32 @@ pub async fn request(props: GetProps) -> (StatusCode, serde_json::Value) {
     let client = Client::new();
     let env = env::load_env();
 
+    let signature: Vec<(String, String)> = vec![("signature".to_string(), env.secret_key)];
+
+    let timestamp: Vec<(String, String)> = vec![("timestamp".to_string(), get_unix_clock())];
+
+    let recv_window: Vec<(String, String)> = vec![("recvWindow".to_string(), 10000.to_string())];
+
+    let compiled_query = || {
+        let mut compiled: Vec<(String, String)> = Vec::new();
+        compiled.extend(signature);
+        compiled.extend(timestamp);
+        compiled.extend(recv_window);
+        compiled
+    };
+
+    let query: Vec<(String, String)> = match props.params {
+        Some(mut params) => {
+            params.extend(compiled_query());
+            params
+        }
+        None => compiled_query(),
+    };
+
     // Request Builder
     let request = match client
         .get(props.url)
-        .query(&props.params)
+        .query(&query)
         .header("X-MBX-APIKEY", env.api_key.to_string())
         .send()
         .await

@@ -58,8 +58,7 @@ async fn main() {
     // Imperative Choices
     match args.first().map(String::as_str) {
         Some("verify") => {
-            
-            // Api Collection Response 
+            // Api Collection Response
             for api_url in binance_api_collection {
 
                 // Send Request For Account Verification If Token Is Still Valid
