@@ -1,5 +1,5 @@
 use lazyman_trading::{
-    core::request::verification,
+    core::request::{funding, types::RequestProps, verification},
     modules::env,
     runtime::functions::{JoinStringProps, join_string},
     std_error_exit,
@@ -44,7 +44,7 @@ async fn main() {
     // Imperative Choices
     match args.first().map(String::as_str) {
         Some("verify") => {
-            verification::account_status(verification::AccountStatusProps {
+            verification::account_status(RequestProps {
                 binance_api_collection,
                 env,
             })
@@ -58,23 +58,35 @@ async fn main() {
         //     println!("returns an roi result regarding on what changed")
         // }
         Some("run") => {
-            println!("sends request and check what tokens you have to offer")
             // lmt run -> initial operation
-            // 
+            //
             // sends a request to wallet and check what tokens do we have
-            // 
+            //
+            let result = funding::funding(RequestProps {
+                binance_api_collection,
+                env,
+            })
+            .await;
+
+            let mut asset_collection: Vec<String> = Vec::new();
+
+            for funding in result.as_array().unwrap() {
+                asset_collection.push(funding["asset"].as_str().unwrap().to_string());
+            }
+
+            println!("{:?}", asset_collection);
+
             // shows an option where you can select which token the bot will be used for
-            // 
             // after selecting we need to make a sure a configuration in token folder exist the structure should be
-            // 
+            //
             // filename = the token name the data inside are the configuration standard structure
-            // 
+            //
             // after finding the correct configuration
-            // 
+            //
             // algorithm will run
-            // 
+            //
             // it will loop on spot trading request
-            // 
+            //
             // and this is where our logic begins it will all rely on the spot trading request
         }
         Some(_) => {
