@@ -1,3 +1,4 @@
+use dialoguer::Select;
 use lazyman_trading::{
     core::request::{funding, types::RequestProps, verification},
     modules::env,
@@ -58,25 +59,30 @@ async fn main() {
         //     println!("returns an roi result regarding on what changed")
         // }
         Some("run") => {
-            // lmt run -> initial operation
-            //
+
             // sends a request to wallet and check what tokens do we have
-            //
             let result = funding::funding(RequestProps {
                 binance_api_collection,
                 env,
             })
             .await;
 
+            // shows an option where you can select which token the bot will be used for
             let mut asset_collection: Vec<String> = Vec::new();
 
             for funding in result.as_array().unwrap() {
                 asset_collection.push(funding["asset"].as_str().unwrap().to_string());
             }
 
-            println!("{:?}", asset_collection);
+            let selection = Select::new()
+                .with_prompt("Pick A Token Where the Bot Will Run")
+                .items(&asset_collection)
+                .default(0)
+                .interact()
+                .unwrap();
 
-            // shows an option where you can select which token the bot will be used for
+            println!("You selected: {}", asset_collection[selection]);
+
             // after selecting we need to make a sure a configuration in token folder exist the structure should be
             //
             // filename = the token name the data inside are the configuration standard structure
