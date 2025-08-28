@@ -23,13 +23,9 @@ pub fn get_unix_clock() -> String {
         .to_string()
 }
 
-pub struct QueryStringProps {
-    pub query: Vec<(String, String)>,
-}
-
-pub fn query_string(props: QueryStringProps) -> String {
+pub fn query_string(query: Vec<(String, String)>) -> String {
     let mut result: Vec<String> = Vec::new();
-    for query in props.query {
+    for query in query {
         let (key, value) = query;
         result.push(format!("{}={}", key, value));
     }

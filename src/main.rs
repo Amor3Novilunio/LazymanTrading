@@ -1,7 +1,5 @@
 use lazyman_trading::{
-    core::{request::types::RequestProps, run, verify},
-    modules::env,
-    runtime::functions::{JoinStringProps, join_string},
+    core::{run, verify},
     std_error_exit,
 };
 
@@ -32,31 +30,14 @@ async fn main() {
     // Flags Skipping for Imperative Design
     let args: Vec<String> = std::env::args().skip(1).collect();
 
-    // Load The Env
-    let env = env::load_env();
-
-    // Convert the api collection to array of Strings
-    let binance_api_collection = join_string(JoinStringProps {
-        split_prefix: ",".to_string(),
-        string_collection: env.binance_api.clone(),
-    });
-
     // Imperative Choices
     match args.first().map(String::as_str) {
         Some("verify") => {
-            verify(RequestProps {
-                binance_api_collection,
-                env,
-            })
-            .await;
+            verify().await;
         }
         Some("run") => {
             // Initialize Run
-            run(RequestProps {
-                binance_api_collection,
-                env,
-            })
-            .await;   
+            run().await;
         }
         Some(_) => {
             println!("help message")

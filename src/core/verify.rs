@@ -1,10 +1,7 @@
-use crate::core::request::{types::RequestProps, verification};
+use crate::core::request::wallet::account_status;
 
-pub async fn verify(props: RequestProps) {
+
+pub async fn verify() {
     // verify if the secret key and api key is valid
-    verification::account_status(RequestProps {
-        binance_api_collection: props.binance_api_collection,
-        env: props.env,
-    })
-    .await
+    account_status().await
 }

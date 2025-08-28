@@ -1,9 +1,0 @@
-{
-    "origin_price": 0,
-    "sell_percentage": 2.0,
-    "buy_amount":0,
-    "buy_percentage": 2.0,
-    "buy_origin_price": 0,
-    "limiter": 0,
-    "wallet_usdt": 0
-}

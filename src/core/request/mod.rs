@@ -1,5 +1,4 @@
-pub mod spot;
-pub mod verification;
-pub mod funding;
 pub mod config;
-pub mod types;
+pub mod spot_trading;
+pub mod wallet;
+pub mod convert;

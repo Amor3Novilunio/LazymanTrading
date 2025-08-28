@@ -1,0 +1,9 @@
+{
+  "origin_price": 14.9,
+  "sell_percentage": 20.0,
+  "buy_price": 2.0,
+  "buy_percentage": 5.0,
+  "buy_origin_price": 14.0,
+  "limiter": 500.0,
+  "wallet_usdt": 0.0
+}
