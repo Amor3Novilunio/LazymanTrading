@@ -104,10 +104,15 @@ if you are like me who only buy token and store them in my wallet and convert th
 
 # WARNING 
   The bots lifetime depends on how much token you have
+  
   This is currently untested because binance have not yet accepted my converting survey to have access to convert API
+  
   Best Used for High Volatility Tokens Like DOGE or PEPE 
+  
   but can also be used for BTC or other Tokens it all depends on how you configure the configs
 
 
 # Future
-   Machine Learning Statistical Basis to automate the process of the config's basically will check the previous records and create a highest possible optimal configuration for the selected token so that you wont have to worry about manually configuring every time the token value changes
+   Machine Learning Statistical Basis to automate the process of the config's basically will check the previous records and create a highest possible optimal 
+   
+   configuration for the selected token so that you wont have to worry about manually configuring every time the token value changes
