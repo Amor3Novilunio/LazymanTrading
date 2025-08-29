@@ -7,15 +7,15 @@ A Bot designed for taking advantage of Convert Feature of an Centralized Exchang
 
 This bot was designed for people who want to play with crypto but as a Hoarder not a Trader
 
-- ### Problem
+### Problem
 
 if you are like me who only buy token and store them in my wallet and convert them back to USDT when its profitable you will know its a hassle to do that because you have to monitor the token if its increasing or decreasing and manually converting when its time to revert to USDT
 
-- ### Lazyman Solution
+### Lazyman Solution
 
   Lazyman is Designed to make that process easier for you what this bot is designed to do is to skim every profit you make converting it to USDT when the configured threshold is triggered and gives you the ability to re-buy when the token goes down to a certain threshold and all that depends on how you configure your token configuration
 
-  - ### Lazyman Env Setup
+### Lazyman Env Setup
   | Env                     | Description/Sample
   |-                        |-
   | API_URL_GENERAL         | https://api.binance.com,https://api1.binance.com,https://api2.binance.com,https://api3.binance.com,https://api4.binance.com
@@ -23,7 +23,7 @@ if you are like me who only buy token and store them in my wallet and convert th
   | API_KEY                 | Your Exchange Api Key
   | SECRET_KEY              | Your Exchange Secret Key 
 
-  - ### Lazyman Configuration
+### Lazyman Configuration
 
     Location : ./Token/< TokenName >.json
     | Configuration |Description | Formula | Usage
@@ -34,7 +34,7 @@ if you are like me who only buy token and store them in my wallet and convert th
     | buy_percentage | The threshold on how much drop in value are you willing to buy in this token again | (token.buy_percentage / 100.0) * new_origin_price | 2.0 is 2%, 20.0% is 20%  
     | limiter | The threshold to stop buy_percentage re-buy when it gets triggered | USDT | 500.0
 
-  - ### Full Circle Process
+### Full Circle Process
 
     ```
         * 1 XRP = 3 USDT
