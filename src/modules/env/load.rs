@@ -28,7 +28,7 @@ pub fn api_url_general() -> String {
 
 pub fn api_url_spot_trading() -> String {
     dotenv().ok();
-    env::var("API_URL_SPOT_TRADING").expect("Env : missing API URL'S General")
+    env::var("API_URL_SPOT_TRADING").expect("Env : missing API URL'S Spot Trading")
 }
 
 pub fn api_key() -> String {

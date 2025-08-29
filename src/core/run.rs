@@ -75,7 +75,7 @@ pub async fn run() {
         } else {
             // create the file
             let json_config = Token {
-                buy_percentage: 0.0,
+                buy_percentage: 0.0, 
                 buy_price: 0.0,
                 limiter: 0.0,
                 origin_price: 0.0,
@@ -125,10 +125,6 @@ pub async fn run() {
                 // Variables
                 // ------------
 
-                // i invested 500 USDT
-                // buy_amount gets triggered now we invested 550 USDT
-                // sell triggers
-                // after we sell we update the buy_amount by buy_amount - token.buy_price if its 0.0 do not proceed
                 let new_origin_price = token.origin_price - buy_amount;
 
                 println!("Investment : {}", new_origin_price);
@@ -174,7 +170,10 @@ pub async fn run() {
                 // when it reaches the quota it will skim the profits and returns you back to the original investment value in USDT
                 let sell_quota = sell_value_in_usdt + new_origin_price;
 
-                println!("Sell Quota : {} | in USDT : ${}", sell_quota, sell_value_in_usdt);
+                println!(
+                    "Sell Quota : {} | in USDT : ${}",
+                    sell_quota, sell_value_in_usdt
+                );
 
                 // Sell Algo
                 if token_in_usdt >= sell_quota {
@@ -182,7 +181,8 @@ pub async fn run() {
                     let sell_value = token_in_usdt - sell_value_in_usdt;
 
                     // the data that will be passed to convert
-                    let skimming_profit = token_in_usdt - sell_value;
+                    let skimming_profit =
+                        format!("{:.4}", token_in_usdt - sell_value).parse().unwrap();
 
                     // Convert Request
                     let result = convert::send_quote(
@@ -226,7 +226,10 @@ pub async fn run() {
                 // buy quota triggers the buy logic when its true
                 let buy_quota = new_origin_price - buy_value_in_usdt;
 
-                println!("Buy Quota : {} | in USDT : ${}", buy_quota, buy_value_in_usdt);
+                println!(
+                    "Buy Quota : {} | in USDT : ${}",
+                    buy_quota, buy_value_in_usdt
+                );
 
                 // limiter expression
                 if token.limiter > buy_amount {

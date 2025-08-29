@@ -9,7 +9,7 @@ use crate::{
 // -------------------------------------
 // Latest price for a symbol or symbols.
 // -------------------------------------
-// query_value = XRPUSDT,BTCUSDT
+// query_value = XRPUSDT, BTCUSDT
 pub async fn market_price_ticker(query_value: String) -> Value {
     let mut value = Value::Null;
 
@@ -23,7 +23,6 @@ pub async fn market_price_ticker(query_value: String) -> Value {
     });
 
     // Query
-
     let query = {
         let mut compiled_query: Vec<(String, String)> = Vec::new();
 
@@ -35,18 +34,6 @@ pub async fn market_price_ticker(query_value: String) -> Value {
         let to_string = serde_json::to_string(&to_array).unwrap();
 
         compiled_query.extend(vec![("symbols".to_string(), to_string)]);
-
-        // if let Some(symbol) = symbol {
-        // }
-
-        // if let Some(symbols) = symbols {
-
-        //     let to_array = join_string(JoinStringProps {
-        //         split_prefix: ",".to_string(),
-        //         string_collection: symbols,
-        //     });
-
-        // }
 
         Some(compiled_query)
     };
@@ -67,9 +54,7 @@ pub async fn market_price_ticker(query_value: String) -> Value {
             break;
         } else {
             value = body;
-            println!(
-                "Error apply handling here meh ill probably just panic it since we are on imperative approach"
-            );
+            println!("Failed to Ticker/Price : {} | Payload :{:?}", status, value);
             continue;
         }
     }

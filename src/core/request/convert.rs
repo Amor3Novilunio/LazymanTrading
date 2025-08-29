@@ -41,7 +41,6 @@ pub async fn send_quote(
             extensions.extend(vec![("toAmount".to_string(), to_amount.to_string())]);
         }
 
-
         Some(extensions)
     }));
 
@@ -60,13 +59,12 @@ pub async fn send_quote(
 
         // Conditional Result Handling
         if status.is_success() {
+            println!("-- Quote Request Sent Successful --");
             value = body;
             break;
         } else {
             value = body;
-            println!(
-                "Error apply handling here meh ill probably just panic it since we are on imperative approach"
-            );
+            println!("Failed to sendQuote : {} | Payload :{:?}", status, value);
             continue;
         }
     }
@@ -101,7 +99,7 @@ pub async fn accept_quote(quote_id: String) {
     // Api Collection Response
     for api_url in binance_api_collection {
         // Send Request For Account Verification If Token Is Still Valid
-        let status = rest::post::request(rest::post::PostProps {
+        let (status_code,value) = rest::post::request(rest::post::PostProps {
             url: format!("{}/sapi/v1/convert/acceptQuote", api_url),
             query: query.clone(),
             headers: headers.clone(),
@@ -110,14 +108,11 @@ pub async fn accept_quote(quote_id: String) {
         .await;
 
         // Conditional Result Handling
-        if status.0.is_success() {
-            println!("-- Conversion Successful");
+        if status_code.is_success() {
+            println!("-- Quote Accepted Successful --");
             break;
         } else {
-            println!("-- Conversion Failed");
-            println!(
-                "Error apply handling here meh ill probably just panic it since we are on imperative approach"
-            );
+            println!("Failed to getQuote : {} | Payload :{:?}", status_code, value);
             continue;
         }
     }

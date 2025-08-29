@@ -36,14 +36,10 @@ pub async fn account_status() {
 
         // Conditional Result Handling
         if status.is_success() {
-            println!("{:?}", status);
-            println!("{:?}", body);
-            println!("SUCKSESSO");
+            println!("Account Status : {} ", body);
             break;
         } else {
-            println!("{:?}", status);
-            println!("{:?}", body);
-            println!("Errror");
+            println!("Failed to getQuote : {} | Payload :{:?}", status, body);
             continue;
         }
     }
@@ -96,9 +92,7 @@ pub async fn funding_wallet(asset: Option<String>) -> Value {
             break;
         } else {
             value = body;
-            println!(
-                "Error apply handling here meh ill probably just panic it since we are on imperative approach"
-            );
+            println!("Failed to Ticker/Price : {} | Payload :{:?}", status, value);
             continue;
         }
     }
