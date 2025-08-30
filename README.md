@@ -25,14 +25,15 @@ if you are like me who only buy token and store them in my wallet and convert th
 
 ### Lazyman Configuration
 
-    Location : ./Token/< TokenName >.json
-    | Configuration |Description | Formula | Usage
-    |-------------------| - | - | -
-    | origin_price | The price of the token the moment you bought it in USDT. | USDT | 500.0
-    | sell_percentage | The threshold based on how much you want to profit in USDT when the token reaches to that price in USDT | (sell_percentage / 100.0) * new*origin_price | 2.0 is 2%, 20.0% is 20%
-    | buy_price | How much you want to buy when the buy_percentage is triggered | USDT | 50.0
-    | buy_percentage | The threshold on how much drop in value are you willing to buy in this token again | (token.buy_percentage / 100.0) * new_origin_price | 2.0 is 2%, 20.0% is 20%  
-    | limiter | The threshold to stop buy_percentage re-buy when it gets triggered | USDT | 500.0
+  Location : ./Token/< TokenName >.json
+    
+  | Configuration | Description | Formula | Usage
+  |-------------------|- |- |-
+  | origin_price      | The price of the token the moment you bought it in USDT.                                                 | USDT                                                       | 500.0
+  | sell_percentage   | The threshold based on how much you want to profit in USDT when the token reaches to that price in USDT  | (sell_percentage / 100.0) * new*origin_price               | 2.0 is 2%, 20.0% is 20%
+  | buy_price         | How much you want to buy when the buy_percentage is triggered                                            | USDT                                                       | 50.0
+  | buy_percentage    | The threshold on how much drop in value are you willing to buy in this token again                       | (token.buy_percentage / 100.0) * new_origin_price          | 2.0 is 2%, 20.0% is 20%  
+  | limiter           | The threshold to stop buy_percentage re-buy when it gets triggered                                       | USDT                                                       | 500.0
 
 ### Full Circle Process
 
